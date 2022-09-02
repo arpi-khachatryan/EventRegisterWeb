@@ -72,6 +72,16 @@ public class UserManager {
                 .event(event)
                 .build();
     }
+
+    public void deleteUser(int id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from user where id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
