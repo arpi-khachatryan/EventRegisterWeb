@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,7 +8,7 @@ Please input event's data:
 <form action="/events/add" method="post">
     <input type="text" name="name" placeholder="Please input name"/><br>
     <input type="text" name="place" placeholder="Please input place"/><br>
-    Is online?<br>
+    Is the event online?<br>
     Yes<input type="radio" name="isOnline" value="TRUE">
     No<input type="radio" name="isOnline" value="FALSE"><br>
     Please select event's type:
