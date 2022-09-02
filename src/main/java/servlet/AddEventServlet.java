@@ -27,14 +27,12 @@ public class AddEventServlet extends HttpServlet {
     @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String name = req.getParameter("name");
         String place = req.getParameter("place");
         boolean isOnline = Boolean.valueOf(req.getParameter("isOnline"));
         EventType eventType = EventType.valueOf(req.getParameter("eventType"));
         double price = Double.valueOf(req.getParameter("price"));
         String eventDateStr = req.getParameter("eventDate");
-
         Event event = Event.builder()
                 .name(name)
                 .place(place)
