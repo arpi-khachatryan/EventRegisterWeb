@@ -88,6 +88,23 @@ public class EventManager {
             e.printStackTrace();
         }
     }
+
+    public void editEvent(Event event) {
+        String sql = "update event set name=?,place=?,is_online=?,price=?,event_type=?,event_date=? where id=?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, event.getName());
+            preparedStatement.setString(2, event.getPlace());
+            preparedStatement.setBoolean(3, event.isOnline());
+            preparedStatement.setDouble(4, event.getPrice());
+            preparedStatement.setString(5, event.getEventType().name());
+            preparedStatement.setString(6, sdf.format(event.getEventDate()));
+            preparedStatement.setInt(7, event.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
