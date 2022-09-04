@@ -46,7 +46,6 @@ public class UserManager {
         return users;
     }
 
-
     public User getById(int id) {
         String sql = "select * from user where id = " + id;
         try {
@@ -73,15 +72,29 @@ public class UserManager {
                 .build();
     }
 
-    public void deleteUser(int id) {
+    public void deleteUserById(int id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from user where id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from user where id =?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-}
 
+    public void edit(User user) {
+        String sql = "update user set name=?,surname=?,email=?, event_id=? where id=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getSurname());
+            ps.setString(3, user.getEmail());
+            ps.setInt(4, user.getEvent().getId());
+            ps.setInt(5, user.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
