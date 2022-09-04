@@ -7,9 +7,11 @@
 <h2>Hello from event manager</h2>
 <br>
 <a href="/events">Show All Events</a>
+<a href="/events/add">Add Event</a><br>
+
 <a href="/users">Show All Users</a>
-<a href="/events/add">Add Event</a>
-<a href="/users/add">Add User</a>
+<a href="/users/add">Add User</a><br>
+
 <a href="/events/delete">Delete Event</a>
 <a href="/users/delete">Delete User</a>
 </body>
