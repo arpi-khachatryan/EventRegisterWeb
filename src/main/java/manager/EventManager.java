@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventManager {
-
     private Connection connection = DBConnectionProvider.getInstance().getConnection();
-
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public void add(Event event) {
@@ -80,7 +78,7 @@ public class EventManager {
                 .build();
     }
 
-    public void deleteEvent(int id) {
+    public void deleteEventById(int id) {
         String sql = "delete from event where id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
