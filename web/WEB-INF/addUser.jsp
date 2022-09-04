@@ -14,19 +14,15 @@ Please input user's data:
 <form action="/users/add" , method="post">
     <input type="text" name="name" placeholder="Please input user's name"><br>
     <input type="text" name="surname" placeholder="Please input user's surname"><br>
-    <input type="text" name="email" placeholder="Please input user's email"><br>
-    Please select the event<br>
+    <input type="email" name="email" placeholder="Please input user's email"><br>
+    Please select event:<br>
     <select name="event_id">
-        <table>
-            <% for (Event event : events) { %>
-            <tr>
-                <option value="<%=event.getId()%>"><%=event.getName()%>
-                </option>
-            </tr>
-            <% } %>
-        </table>
+        <% for (Event event : events) { %>
+        <option value="<%=event.getId()%>"><%=event.getName()%> <%=event.getPlace()%> (<%=event.getPrice()%>)
+        </option>
+        <% } %>
     </select><br>
-    <input type="submit" value="Add">
+    <input type="submit" value="Register">
 </form>
 </body>
 </html>
