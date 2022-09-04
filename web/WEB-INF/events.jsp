@@ -37,7 +37,7 @@
         <td><%=event.getEventDate()%>
         </td>
         <td><a href="/events/remove?id=<%=event.getId()%>">Remove</a>
-        <td><a href="/events/edit?id=<%=event.getId()%>">Remove</a>
+            <a href="/events/edit?id=<%=event.getId()%>">Edit</a>
         </td>
     </tr>
     <% } %>
