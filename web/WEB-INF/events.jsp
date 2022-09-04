@@ -18,6 +18,7 @@
         <th>event type</th>
         <th>price</th>
         <th>event date</th>
+        <th>action</th>
     </tr>
     <% for (Event event : events) { %>
     <tr>
@@ -34,6 +35,9 @@
         <td><%=event.getPrice()%>
         </td>
         <td><%=event.getEventDate()%>
+        </td>
+        <td><a href="/events/remove?id=<%=event.getId()%>">Remove</a>
+        <td><a href="/events/edit?id=<%=event.getId()%>">Remove</a>
         </td>
     </tr>
     <% } %>
