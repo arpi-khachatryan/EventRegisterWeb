@@ -13,7 +13,7 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/events/delete")
 public class DeleteEventServlet extends HttpServlet {
-    EventManager eventManager = new EventManager();
+    private EventManager eventManager = new EventManager();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,7 +25,7 @@ public class DeleteEventServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        eventManager.deleteEvent(id);
+        eventManager.deleteEventById(id);
         resp.sendRedirect("/events");
     }
 }
