@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>User's page</title>
+    <title>USER</title>
 </head>
 <body>
 <% List<User> users = (List<User>) request.getAttribute("users");%>
@@ -13,7 +13,8 @@
         <th>name</th>
         <th>surname</th>
         <th>email</th>
-        <th>event name</th>
+        <th>event name and place</th>
+        <th>action</th>
     </tr>
     <% for (User user : users) { %>
     <tr>
@@ -25,7 +26,16 @@
         </td>
         <td><%=user.getEmail()%>
         </td>
-        <td><%=user.getEvent().getName()%>
+        <td>
+            <%if (user.getEvent() != null) {%>
+            <%=user.getEvent().getName()%><%=user.getEvent().getPlace()%>
+            <%} else {%>
+            <span style="color: red">There is no event</span>
+            <%}%>
+        </td>
+        <td>
+            <a href="/users/remove?id=<%=user.getId()%>">Remove</a> |
+            <a href="/users/edit?id=<%=user.getId()%>">Edit</a>
         </td>
     </tr>
     <% } %>
