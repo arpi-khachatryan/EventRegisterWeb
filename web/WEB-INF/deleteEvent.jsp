@@ -9,7 +9,7 @@
 <%
     List<Event> events = (List<Event>) request.getAttribute("events");
 %>
-Please select event's name:
+<h3 style="color: dodgerblue">Please select event's name:</h3>
 <form action="/events/delete" method="post">
     <select name="id">
         <table>
