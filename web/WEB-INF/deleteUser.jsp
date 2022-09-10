@@ -9,7 +9,7 @@
 <%
     List<User> users = (List<User>) request.getAttribute("users");
 %>
-Please select user's name:
+<h3 style="color: dodgerblue">Please select user's name:</h3>
 <form action="/users/delete" method="post">
     <select name="id">
         <table>
