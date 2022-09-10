@@ -15,4 +15,7 @@ public class User {
     private String surname;
     private String email;
     private Event event;
+    private String profilePic;
+    private String password;
+    private UserRole userRole;
 }
