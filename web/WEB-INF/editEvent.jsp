@@ -6,6 +6,7 @@
 </head>
 <body>
 <% Event event = (Event) request.getAttribute("events");%>
+<h3 style="color: dodgerblue">Update the data:</h3>
 <form action="/events/edit" method=post>
     <input type="hidden" name="id" value="<%=event.getId()%>"><br>
     <input type="text" name="name" value="<%=event.getName()%>"><br>
