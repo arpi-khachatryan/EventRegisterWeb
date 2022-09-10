@@ -9,6 +9,7 @@
 <% List<User> users = (List<User>) request.getAttribute("users");%>
 <table border="1">
     <tr>
+        <th>image</th>
         <th>id</th>
         <th>name</th>
         <th>surname</th>
@@ -18,6 +19,13 @@
     </tr>
     <% for (User user : users) { %>
     <tr>
+        <td>
+            <%if (user.getProfilePic() == null || user.getProfilePic().length() ==0) {%>
+            <img src="/image/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" width="100">
+            <%} else {%>
+            <img src="/getImage?profilePic=<%=user.getProfilePic()%>" width="100">
+            <%}%>
+        </td>
         <td><%=user.getId()%>
         </td>
         <td><%=user.getName()%>
