@@ -4,6 +4,8 @@ import lombok.SneakyThrows;
 import manager.EventManager;
 import model.Event;
 import model.EventType;
+import model.User;
+import model.UserRole;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +17,6 @@ import java.text.SimpleDateFormat;
 
 @WebServlet(urlPatterns = "/events/add")
 public class AddEventServlet extends HttpServlet {
-
     private EventManager eventManager = new EventManager();
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
