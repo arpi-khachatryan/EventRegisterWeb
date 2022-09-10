@@ -13,7 +13,6 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/events")
 public class EventsServlet extends HttpServlet {
-
     private EventManager eventManager = new EventManager();
 
     @Override
