@@ -12,7 +12,7 @@
     User user = (User) request.getAttribute("user");
     List<Event> events = (List<Event>) request.getAttribute("events");
 %>
-Please update user's data:
+<h3 style="color: dodgerblue">Update the data:</h3>
 <form action="/users/edit" method="post">
     <input type="hidden" name="id" value="<%=user.getId()%>">
     <input type="text" name="name" value="<%=user.getName()%>"><br>
