@@ -4,7 +4,7 @@
     <title>Add event</title>
 </head>
 <body>
-Please input event's data:
+<h3 style="color: dodgerblue">Please input data about the event:</h3>
 <form action="/events/add" method="post">
     <input type="text" name="name" placeholder="Please input name"/><br>
     <input type="text" name="place" placeholder="Please input place"/><br>
