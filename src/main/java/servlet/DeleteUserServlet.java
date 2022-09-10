@@ -1,6 +1,5 @@
 package servlet;
 
-import manager.EventManager;
 import manager.UserManager;
 import model.User;
 
