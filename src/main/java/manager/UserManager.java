@@ -14,13 +14,12 @@ public class UserManager {
     private EventManager eventManager = new EventManager();
 
     public void add(User user) {
-        String sql = "insert into user(name,surname,email,profile_pic,password,user_role) values(?,?,?,?,?,?)";
+        String sql = "insert into user(name,surname,email,profile_pic,password,user_role) values (?,?,?,?,?,?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
             ps.setString(3, user.getEmail());
-//            ps.setInt(4, user.getEvent().getId());
             ps.setString(4, user.getProfilePic());
             ps.setString(5, user.getPassword());
             ps.setString(6, user.getUserRole().name());
@@ -53,8 +52,8 @@ public class UserManager {
     public User getById(int id) {
         String sql = "select * from user where id = " + id;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 return getUserFromResultSet(resultSet);
             }
@@ -65,12 +64,12 @@ public class UserManager {
     }
 
     public User getUserByEmailAndPassword(String email, String password) {
-        String sql = "select * from user where email=? and password=?";
+        String sql = "select * from user where email = ? and password = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, email);
-            ps.setString(2, password);
-            ResultSet resultSet = ps.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return getUserFromResultSet(resultSet);
             }
@@ -81,11 +80,11 @@ public class UserManager {
     }
 
     public User getUserByEmail(String email) {
-        String sql = "select * from user where email=?";
+        String sql = "select * from user where email = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, email);
-            ResultSet resultSet = ps.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return getUserFromResultSet(resultSet);
             }
@@ -96,46 +95,68 @@ public class UserManager {
     }
 
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("event_id");
-        Event event = eventManager.getById(id);
-        return User.builder()
-                .id(resultSet.getInt("id"))
-                .name(resultSet.getString("name"))
-                .surname(resultSet.getString("surname"))
-                .email(resultSet.getString("email"))
-                .event(event)
-                .profilePic(resultSet.getString("profile_pic"))
-                .password(resultSet.getString("password"))
-                .userRole(UserRole.valueOf(resultSet.getString("user_role")))
-                .build();
+        User user = new User();
+        user.setId(resultSet.getInt("id"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPassword(resultSet.getString("password"));
+        user.setUserRole(UserRole.valueOf(resultSet.getString("user_role")));
+        user.setProfilePic(resultSet.getString("profile_pic"));
+
+        String userEventSql = "select event_id from user_event where user_id = ?";
+        PreparedStatement ps = connection.prepareStatement(userEventSql);
+        ps.setInt(1, user.getId());
+        ResultSet eventsResultSet = ps.executeQuery();
+        List<Event> events = new ArrayList<>();
+        while (eventsResultSet.next()) {
+            events.add(eventManager.getById(eventsResultSet.getInt(1)));
+        }
+        user.setEvents(events);
+        return user;
     }
 
-    public void deleteUserById(int id) {
+    public void removeById(int userId) {
+        String sql = "delete from user where id = " + userId;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from user where id =?");
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void edit(User user) {
-        String sql = "update user set name=?,surname=?,email=?, event_id=?, profile_pic=?,password=?,user_role=? where id=?";
+        String sql = "update user set name=?,surname =?,email=?,profile_pic=?,password=?,user_role=? where id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
             ps.setString(3, user.getEmail());
-            ps.setInt(4, user.getEvent().getId());
-            ps.setString(5, user.getProfilePic());
-            ps.setString(6, user.getPassword());
-            ps.setString(7, user.getUserRole().name());
-            ps.setInt(8, user.getId());
+            ps.setString(4, user.getProfilePic());
+            ps.setString(5, user.getPassword());
+            ps.setString(6, user.getUserRole().name());
+            ps.setInt(7, user.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-}
 
+    public List<User> getUsersByEventId(int eventId) {
+        String userEventSql = "select user_id from user_event where event_id=?";
+        PreparedStatement ps;
+        List<User> users = new ArrayList<>();
+        try {
+            ps = connection.prepareStatement(userEventSql);
+            ps.setInt(1, eventId);
+            ResultSet userResultSet = ps.executeQuery();
+            while (userResultSet.next()) {
+                users.add(getById(userResultSet.getInt(1)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+}
