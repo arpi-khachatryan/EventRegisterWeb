@@ -11,12 +11,14 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/events/remove")
 public class EventRemoveServlet extends HttpServlet {
+
     private EventManager eventManager = new EventManager();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        eventManager.deleteEventById(id);
+        int eventId = Integer.parseInt(req.getParameter("eventId"));
+        eventManager.deleteEventById(eventId);
+        //EventById(eventId);
         resp.sendRedirect("/events");
     }
 }
