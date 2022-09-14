@@ -13,13 +13,13 @@ import java.io.OutputStream;
 
 @WebServlet(urlPatterns = "/getImage")
 public class GetImageServlet extends HttpServlet {
-    private static final String imagePath = "/Users/annakhachatryan/Library/Application Support/JetBrains/EventRegisterWeb/projectImages/";
+    private static final String IMAGE_PATH = "/Users/annakhachatryan/Library/Application Support/JetBrains/EventRegisterWeb/projectImages/";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pic = req.getParameter("profilePic");
         //reads input file from an absolute path
-        String filePath = imagePath + pic;
+        String filePath = IMAGE_PATH + pic;
         File imageFile = new File(filePath);
         if (imageFile.exists()) {
             try (FileInputStream inStream = new FileInputStream(imageFile)) {
