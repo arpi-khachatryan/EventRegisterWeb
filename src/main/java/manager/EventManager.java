@@ -53,8 +53,8 @@ public class EventManager {
     public Event getById(int id) {
         String sql = "select * from event where id = " + id;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 Event event = getEventFromResultSet(resultSet);
                 return event;
@@ -81,9 +81,9 @@ public class EventManager {
     public void deleteEventById(int id) {
         String sql = "delete from event where id = ?";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,6 +104,76 @@ public class EventManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void join(int eventId, int userId) {
+        String sql = "insert into user_event(user_id,event_id) values(?,?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setInt(2, eventId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cancel(int eventId, int userId) {
+        String sql = "delete from user_event where event_id=? and user_id=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, eventId);
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Event> getEventsByUserId(int userId) {
+        String sql = "select event_id from user_event where user_id=?";
+        List<Event> events = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet eventsResultSet = ps.executeQuery();
+            while (eventsResultSet.next()) {
+                events.add(getById(eventsResultSet.getInt(1)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return events;
+    }
+
+    public List<Event> search(String keyword) {
+        String sql = "select * from event where name like '%" + keyword + "%' or place like '%" + keyword + "%'";
+        List<Event> events = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet resultSet = ps.executeQuery(sql);
+            while (resultSet.next()) {
+                events.add(getEventFromResultSet(resultSet));
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+        return events;
+    }
+
+    public List<Event> filter(double minPrice, double maxPrice) {
+        String sql = "select * from event where price > " + minPrice + "and price < " + maxPrice;
+        List<Event> events = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet resultSet = ps.executeQuery(sql);
+            while (resultSet.next()) {
+                events.add(getEventFromResultSet(resultSet));
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+        return events;
     }
 }
 
