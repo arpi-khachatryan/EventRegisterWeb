@@ -1,20 +1,20 @@
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode(exclude = "events")
 public class User {
     private int id;
     private String name;
     private String surname;
     private String email;
-    private Event event;
+    private List<Event> events;
     private String profilePic;
     private String password;
     private UserRole userRole;
