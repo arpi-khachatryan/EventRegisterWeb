@@ -18,42 +18,42 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/users/add")
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 1, //1MB
-        maxFileSize = 1024 * 1024 * 10,      //10MB
-        maxRequestSize = 1024 * 1024 * 100   //100MB
+        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+        maxFileSize = 1024 * 1024 * 10,      // 10 MB
+        maxRequestSize = 1024 * 1024 * 100   // 100 MB
 )
 public class AddUserServlet extends HttpServlet {
-    private UserManager userManager = new UserManager();
-    private EventManager eventManager = new EventManager();
-    private static final String imagePath = "/Users/annakhachatryan/Library/Application Support/JetBrains/EventRegisterWeb/projectImages/";
 
+    private EventManager eventManager = new EventManager();
+    private UserManager userManager = new UserManager();
+
+    private static final String IMAGE_PATH = "/Users/annakhachatryan/Library/Application Support/JetBrains/EventRegisterWeb/projectImages/";
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        List<Event> eventList = eventManager.getAll();
-//        req.setAttribute("event", eventList);
-        req.getRequestDispatcher("/WEB-INF/addUser.jsp").forward(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        List<Event> all = eventManager.getAll();
+//        request.setAttribute("events", all);
+        request.getRequestDispatcher("/WEB-INF/addUser.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String email = request.getParameter("email");
         if (userManager.getUserByEmail(email) != null) {
-            req.setAttribute("msg", "User already exists");
-            req.getRequestDispatcher("/WEB-INF/addUser.jsp").forward(req, resp);
+            request.setAttribute("msg", "User already exists");
+            request.getRequestDispatcher("/WEB-INF/addUser.jsp").forward(request, response);
         } else {
-            String name = req.getParameter("name");
-            String surname = req.getParameter("surname");
-            String password = req.getParameter("password");
-            UserRole userRole = UserRole.valueOf(req.getParameter("user_role"));
-//        int id = Integer.parseInt(req.getParameter("event_id"));
-//        Event event = eventManager.getById(id);
-            Part profilePicPart = req.getPart("profilePic");
+            String name = request.getParameter("name");
+            String surname = request.getParameter("surname");
+            String password = request.getParameter("password");
+            UserRole userRole = UserRole.valueOf(request.getParameter("user_role"));
+//        int eventId = Integer.parseInt(request.getParameter("eventId"));
+            Part profilePicPart = request.getPart("profilePic");
             String fileName = null;
-            if (profilePicPart != null) {
+            if (profilePicPart.getName().contains(".jpeg") || profilePicPart.getName().contains(".png")) {
                 long nanoTime = System.nanoTime();
                 fileName = nanoTime + "_" + profilePicPart.getSubmittedFileName();
-                profilePicPart.write(imagePath + fileName);
+                profilePicPart.write(IMAGE_PATH + fileName);
             }
             User user = User.builder()
                     .name(name)
@@ -61,11 +61,11 @@ public class AddUserServlet extends HttpServlet {
                     .email(email)
                     .password(password)
                     .userRole(userRole)
-//                .event(event)
+//                .event(eventManager.getById(eventId))
                     .profilePic(fileName)
                     .build();
             userManager.add(user);
-            resp.sendRedirect("/login");
+            response.sendRedirect("/login");
         }
     }
 }
