@@ -14,25 +14,22 @@
         <img src="/image/events.jpg" width="800" height="350">
     </div>
     <div>
-        <h2 style="color: dodgerblue">Hello from event manager</h2>
         <br>
-        <a href="/events" style="color: dodgerblue">Show All Events</a>
-
+        <a href="/events">Show All Events</a>
         <%
             if (user != null && user.getUserRole() == UserRole.ADMIN) {
         %>
-        <a href="/events/add" style="color: dodgerblue">Add Event</a><br>
-        <% } %>
-
-
+        <a href="/events/add">Add Event</a>
+        <a href="/users/add">Add User</a>
+        <%}%>
         <%
             if (user != null) {
         %>
-        <a href="/users" style="color: dodgerblue">Show All Users</a>
-        <a href="/logout" style="color: dodgerblue">Logout</a>
-        <% } else {%>
-        <a href="/users/add" style="color: dodgerblue">Register</a><br>
-        <a href="/login" style="color: dodgerblue">Login</a><br>
+        <a href="/users">Show all users</a>
+        <a href="/logout">Logout</a>
+        <%} else {%>
+        <a href="/users/add">Register </a>
+        <a href="/login">Login</a>
         <%}%>
         <%--        <a href="/events/delete" style="color: dodgerblue">Delete Event</a>--%>
         <%--        <a href="/users/delete" style="color: dodgerblue">Delete User</a>--%>
