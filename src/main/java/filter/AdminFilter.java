@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebFilter(urlPatterns = "/events")
+@WebFilter(urlPatterns = {"/users", "/events/add"})
 public class AdminFilter implements Filter {
+
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
