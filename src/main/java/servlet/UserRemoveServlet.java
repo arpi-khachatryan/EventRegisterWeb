@@ -12,12 +12,13 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/users/remove")
 public class UserRemoveServlet extends HttpServlet {
+
     private UserManager userManager = new UserManager();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        userManager.deleteUserById(id);
+        int userId = Integer.parseInt(req.getParameter("userId"));
+        userManager.removeById(userId);
         resp.sendRedirect("/users");
     }
 }
