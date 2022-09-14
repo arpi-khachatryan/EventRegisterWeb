@@ -4,8 +4,7 @@ import lombok.SneakyThrows;
 import manager.EventManager;
 import model.Event;
 import model.EventType;
-import model.User;
-import model.UserRole;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +31,7 @@ public class AddEventServlet extends HttpServlet {
         String place = req.getParameter("place");
         boolean isOnline = Boolean.valueOf(req.getParameter("isOnline"));
         EventType eventType = EventType.valueOf(req.getParameter("eventType"));
-        double price = Double.valueOf(req.getParameter("price"));
+        double price = Double.parseDouble(req.getParameter("price"));
         String eventDateStr = req.getParameter("eventDate");
         Event event = Event.builder()
                 .name(name)
@@ -46,3 +45,5 @@ public class AddEventServlet extends HttpServlet {
         resp.sendRedirect("/events");
     }
 }
+
+
