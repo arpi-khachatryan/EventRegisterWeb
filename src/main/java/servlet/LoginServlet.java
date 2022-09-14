@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+
     private UserManager userManager = new UserManager();
 
     @Override
@@ -31,7 +32,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            resp.sendRedirect("/index.jsp");
+            resp.sendRedirect("/");
         }
     }
 }
